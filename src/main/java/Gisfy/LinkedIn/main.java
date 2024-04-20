@@ -8,7 +8,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.WheelInput;
-
+import java.util.regex.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +27,9 @@ public class main {
         int page = 1;
         boolean chromeproceed = true;
         boolean  proceed = true;
+        
+        List <String> companyIds = new ArrayList<String>();
+        
         while(chromeproceed) {
         try {
         	String newurl = parts[0]+"page="+page+"&q"+parts[1];
@@ -75,16 +79,41 @@ public class main {
             
              
              List<WebElement> list = driver.findElements(By.cssSelector("li.artdeco-list__item a"));
+             int index = 0;
              for(WebElement a : list) {
-             	System.out.println(a.getAttribute("href"));
+            	 if(index % 3 == 0) {
+            		
+            		 companyIds.add(a.getAttribute("href").split("/")[5].split("\\?")[0]);
+            		 System.out.println( a.getAttribute("href").split("/")[5].split("\\?")[0]);
+            	 }
+            	 index++;
+             	
              }
              
              System.out.println(list.size());
      	     System.out.println("Okay page "+page+"\n\n\n");
      	     page = page+1;
+     		chromeproceed = false;
          }
         }
         System.out.println("Okay Done");
+        for(String e : companyIds) {
+        	System.out.println(e);
+        }
 	
     } 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
